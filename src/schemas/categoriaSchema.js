@@ -10,9 +10,20 @@ const categoriaSchema = mongoose.Schema({
         type: String,
         required:false
     },
-    imagen:{
-        type: String,
-        required:false
+    imagen:
+      { 
+        data:String,
+        url: String, 
+        name:String
+      }
+    
+},
+{
+    statics: {
+      findByName(nombre) {
+        return this.find({ nombre: new RegExp(nombre, 'i') });
+      }
     }
-})
+  }
+)
 module.exports = mongoose.model("categorias",categoriaSchema);

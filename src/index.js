@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 const categoriaRouter = require('./routes/categoriaController');
+const productoRouter = require('./routes/productoController');
 require('dotenv').config();
 
 const app = express();
@@ -12,10 +14,12 @@ app.use(express.json());
 app.get('/',(req,res)=> {
     res.send("Servidor funcionando...");
 })
-
 //Demas rutas de los controladores
 app.use('/api',categoriaRouter);
+app.use('/api',productoRouter);
 
+//configuramos carpeta publica del servidor
+app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')))
 
 //Conexión a la base de datos
 /*mongoose.connect(process.env.databaseUrlCloud).then(() => {
