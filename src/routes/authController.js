@@ -1,7 +1,7 @@
 const authRouter = require("express").Router();
 const userSchema = require("../schemas/userSchema");
 const bcrypt = require("bcrypt");
-
+const jwt = require('jsonwebtoken');
 
 
 authRouter.post("/login",async (req,res)=>{
@@ -9,6 +9,7 @@ authRouter.post("/login",async (req,res)=>{
     const username = req.body.username;
     const password = req.body.password;
 
+    //Validamos informacion
     if(username == null || username == ""){
         var response = {
             code : 500,
@@ -39,13 +40,26 @@ authRouter.post("/login",async (req,res)=>{
             res.json(response);
         }
         else{
-
             bcrypt.compare(password, data[0].password).then(function(result) {
                 if(result){
+                    //Generamos el token para peticiones
+                    const token = jwt.sign(
+                        { id: data.__id},
+                        process.env.TOKEN_KEY,
+                        {
+                          expiresIn: "2h",
+                        }
+                    );
+
                     var response = {
                         code : 200,
                         message : "Usuario autenticado exitosamente",
-                        data : data
+                        data : {
+                            nombres:data[0].nombres,
+                            apellidos: data[0].apellidos,
+                            correo: data[0].correo,
+                            token: token
+                        }
                     }
                     res.json(response);
                 }
@@ -57,8 +71,7 @@ authRouter.post("/login",async (req,res)=>{
                     }
                     res.json(response);
                 }
-            });
-         
+            });        
         }
     }).catch((error) => {
         var response = {
@@ -69,8 +82,5 @@ authRouter.post("/login",async (req,res)=>{
         res.json(response);
     })
 })
-
-
-
 
 module.exports = authRouter;
