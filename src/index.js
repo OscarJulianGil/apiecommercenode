@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const path = require('path');
 const categoriaRouter = require('./routes/categoriaController');
 const productoRouter = require('./routes/productoController');
+const userRouter = require('./routes/userController');
+const authRouter = require('./routes/authController');
+
+
 require('dotenv').config();
 
 const app = express();
@@ -17,6 +21,8 @@ app.get('/',(req,res)=> {
 //Demas rutas de los controladores
 app.use('/api',categoriaRouter);
 app.use('/api',productoRouter);
+app.use('/api',userRouter);
+app.use('/api',authRouter);
 
 //configuramos carpeta publica del servidor
 app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')))

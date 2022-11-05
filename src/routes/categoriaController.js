@@ -8,7 +8,7 @@ require('dotenv').config();
 const categoriaRouter = express.Router();
 
 //Retorna todas las categorias
-categoriaRouter.get('/categoria/getall',(req,res) => {
+categoriaRouter.get('/categoria/getall',async (req,res) => {
     categoriaSchema.find().then((data) => {
         var response = {
             code : 200,
