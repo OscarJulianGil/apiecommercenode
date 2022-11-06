@@ -2,11 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
-const categoriaRouter = require('./routes/categoriaController');
-const productoRouter = require('./routes/productoController');
-const userRouter = require('./routes/userController');
-const authRouter = require('./routes/authController');
-const tokenvalidation = require('./middleware/auth');
+const categoriaRouter = require('./src/routes/categoriaController');
+const productoRouter = require('./src/routes/productoController');
+const userRouter = require('./src/routes/userController');
+const authRouter = require('./src/routes/authController');
+const tokenvalidation = require('./src/middleware/auth');
 
 require('dotenv').config();
 
