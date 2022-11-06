@@ -36,7 +36,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')
     console.log("database connect error: " + error);
 })*/
 
-mongoose.connect(process.env.databaseUrlLocal).then(() => {
+mongoose.connect("mongodb+srv://oscarjuligil:Temporal1232022@cluster0.eppm99e.mongodb.net/?retryWrites=true&w=majority").then(() => {
     console.log("Mongo DB local connected...");
 }).catch((error) => {
     console.log("database connect error: " + error);
