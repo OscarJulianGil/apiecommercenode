@@ -48,24 +48,27 @@ categoriaRouter.get('/categoria/getbyname/:name',(req,res) => {
 })
 
 //Crear una categoria
-categoriaRouter.post('/categoria/create',(req,res) => {
-
+categoriaRouter.post('/categoria/create',async(req,res) => {
     //Mapear el esquema recibido en el request, con el esquema de mongoDB
     const newCategoria = categoriaSchema(req.body);
     
-    //Tomar los datos del base64
-    const fileContents = new Buffer.from(newCategoria.imagen.data, 'base64')
-    //Guardo el archivo en una ruta dada.
-    fs.writeFileSync(path.join(__dirname, '..','..', 'public/images/') + newCategoria.imagen.name, fileContents, err => {
-        if (err) {
-            console.error(err);
-        }
-    });
+    if(newCategoria.imagen.data != null){
+        //Tomar los datos del base64
+        const fileContents = new Buffer.from(newCategoria.imagen.data, 'base64')
 
-    //Limpia la data del base 64
-    newCategoria.imagen.data = "";
-    newCategoria.imagen.url = process.env.pathfiles + newCategoria.imagen.name;
-    newCategoria.save().then((data) =>{
+        //Guardo el archivo en una ruta dada.
+        await fs.writeFileSync(path.join(__dirname, '..','..', 'public/images/') + newCategoria.imagen.name, fileContents, err => {
+            if (err) {
+                console.error(err);
+            }
+        });
+
+        //Limpia la data del base 64
+        newCategoria.imagen.data = "";
+        newCategoria.imagen.url = process.env.pathfiles + newCategoria.imagen.name;
+    }
+    
+    await newCategoria.save().then((data) =>{
         
         var response = {
             code : 200,

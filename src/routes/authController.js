@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 
 
+//Realiza la autenticación del usuario
 authRouter.post("/login",async (req,res)=>{
     //Tomo los datos para la autenticacion
     const username = req.body.username;
@@ -81,6 +82,67 @@ authRouter.post("/login",async (req,res)=>{
         }
         res.json(response);
     })
+})
+
+
+//Crea un nuevo usuario
+authRouter.post("/user/create",(req,res)=>{
+    //Mapear el esquema recibido en el request, con el esquema de mongoDB
+    const newUser = userSchema(req.body);
+
+    //Validamos que el correo no exista en la base de datos.
+    userSchema.findByemail(req.body.correo).then((data) =>{
+        if(data.length > 0){
+            var response = {
+                code : 500,
+                message : "El correo ya esta registrado en el sistema",
+                data : null
+            }
+            res.json(response)
+        }
+        else{
+            const saltRounds = 10;
+            //Encriptamos el password.
+            bcrypt.genSalt(saltRounds, function(err, salt) {
+            bcrypt.hash(newUser.password, salt, function(err, hash) {
+            if(err)
+            {
+                var response = {
+                    code : 500,
+                    message : "Error guardando el usuario",
+                    data : err
+                }
+                res.json(response)
+            }
+            else{
+                newUser.password = hash;
+                newUser.save().then((data) =>{
+                    var response = {
+                        code : 200,
+                        message : "Usuario registrado  exitosamente",
+                        data : data
+                    }
+                    res.json(response)
+                }).catch((error) => {
+                    var response = {
+                        code : 500,
+                        message : "Server error" + error,
+                        data : error
+                    }
+                    res.json(response);
+                })
+            }
+        });
+     });
+    }
+    }).catch((error) => {
+        var response = {
+            code : 500,
+            message : "Server error" + error,
+            data : error
+        }
+        res.json(response);
+    }) 
 })
 
 module.exports = authRouter;

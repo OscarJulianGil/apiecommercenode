@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
-const categoriaRouter = require('./src/routes/categoriaController');
-const productoRouter = require('./src/routes/productoController');
-const userRouter = require('./src/routes/userController');
-const authRouter = require('./src/routes/authController');
-const tokenvalidation = require('./src/middleware/auth');
+const categoriaRouter = require('./routes/categoriaController');
+const productoRouter = require('./routes/productoController');
+const userRouter = require('./routes/userController');
+const authRouter = require('./routes/authController');
+const tokenvalidation = require('./middleware/auth');
+const { env } = require('process');
 
 require('dotenv').config();
 
@@ -16,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 //Ruta inicial
 app.get('/',(req,res)=> {
-    res.send("Servidor funcionando...");
+    res.send("Servidor funcionando version " + process.env.VERSION);
 })
 
 //Demas rutas de los controladores
@@ -36,7 +37,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')
     console.log("database connect error: " + error);
 })*/
 
-mongoose.connect("mongodb+srv://oscarjuligil:Temporal1232022@cluster0.eppm99e.mongodb.net/?retryWrites=true&w=majority").then(() => {
+mongoose.connect(process.env.databaseUrlLocal).then(() => {
     console.log("Mongo DB local connected...");
 }).catch((error) => {
     console.log("database connect error: " + error);
