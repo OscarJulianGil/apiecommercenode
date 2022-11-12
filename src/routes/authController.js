@@ -68,7 +68,7 @@ authRouter.post("/login",async (req,res)=>{
                     var response = {
                         code : 500,
                         message : "Contraseña no valida",
-                        data : data
+                        data : null
                     }
                     res.json(response);
                 }

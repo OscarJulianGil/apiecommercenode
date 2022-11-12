@@ -86,4 +86,46 @@ categoriaRouter.post('/categoria/create',async(req,res) => {
     })
 })
 
+//Actualizar categoria
+categoriaRouter.post('/categoria/update/:id',(req,res)=>{
+        let { id } = req.params;
+        const {nombre, descripcion, imagen} = req.body;
+        categoriaSchema.updateOne({_id : id}, {$set: { nombre,descripcion }}).then((data) =>{
+        var response = {
+            code : 200,
+            message : "Categoria actualizada exitosamente",
+            data : data
+        }
+        res.json(response);
+    }).catch((error) =>{
+        var response = {
+            code : 500,
+            message : "Server error" + error,
+            data : error
+        }
+        res.json(response);
+    })
+})
+
+//Eliminar categoria
+categoriaRouter.delete('/categoria/delete/:id',(req,res)=>{
+        let { id } = req.params;
+
+        categoriaSchema.remove({_id:id}).then((data) =>{
+        var response = {
+            code : 200,
+            message : "Categoria eliminada exitosamente",
+            data : data
+        }
+        res.json(response);
+    }).catch((error) =>{
+        var response = {
+            code : 500,
+            message : "Server error" + error,
+            data : error
+        }
+        res.json(response)
+    })
+})
+
 module.exports = categoriaRouter;

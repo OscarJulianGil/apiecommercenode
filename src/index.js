@@ -7,7 +7,6 @@ const productoRouter = require('./routes/productoController');
 const userRouter = require('./routes/userController');
 const authRouter = require('./routes/authController');
 const tokenvalidation = require('./middleware/auth');
-const { env } = require('process');
 
 require('dotenv').config();
 
