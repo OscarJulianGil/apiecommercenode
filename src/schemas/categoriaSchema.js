@@ -10,12 +10,15 @@ const categoriaSchema = mongoose.Schema({
         type: String,
         required:false
     },
-    imagen:
-      { 
+    imagen:{ 
         data:String,
         url: String, 
         name:String
-      }
+    },
+    productos:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'productos'
+    }
     
 },
 {

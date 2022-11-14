@@ -108,7 +108,7 @@ categoriaRouter.post('/categoria/update/:id',(req,res)=>{
 })
 
 //Eliminar categoria
-categoriaRouter.delete('/categoria/delete/:id',(req,res)=>{
+categoriaRouter.get('/categoria/delete/:id',(req,res)=>{
         let { id } = req.params;
 
         categoriaSchema.remove({_id:id}).then((data) =>{

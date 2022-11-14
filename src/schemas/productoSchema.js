@@ -17,25 +17,21 @@ const productoSchema = mongoose.Schema({
     },
     preciofestivo:{
         type: Number,
-        required:true
+        required:false
     },
     cantidaddisponible:{
         type: Number,
         required:true
     },
     categoriaid:{
-        type: String,
-        required:true
+        type: mongoose.Schema.ObjectId,
+        ref: 'categorias'
     },
-    imagen:[
-        {
-            productoimagen:
-            {
-                type: String,
-                required:true
-            }
-        }
-    ]
+    imagen:{ 
+        data:String,
+        url: String, 
+        name:String
+    }
 })
 
 module.exports = mongoose.model("productos",productoSchema);
