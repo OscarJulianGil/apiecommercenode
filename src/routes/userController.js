@@ -1,6 +1,6 @@
 const userRouter = require("express").Router();
 const userSchema = require("../schemas/userSchema");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 
 
