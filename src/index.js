@@ -31,18 +31,10 @@ app.use('/api',tokenvalidation,userRouter);
 //configuramos carpeta publica del servidor
 app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')))
 
-
-//Conexión a la base de datos
-/*mongoose.connect(process.env.databaseUrlCloud).then(() => {
-    console.log("Mongo DB connected...");
-}).catch((error) => {
-    console.log("database connect error: " + error);
-})*/
-
 mongoose.connect(process.env.databaseUrlLocal).then(() => {
-    console.log("Mongo DB local connected...");
+    console.log("Mongo DB is ready...");
 }).catch((error) => {
     console.log("database connect error: " + error);
 })
 
-app.listen(process.env.appPort,() => { console.log("Server is listening")})
+app.listen(process.env.PORT || 4000,() => { console.log("Server is listening")})
