@@ -23,9 +23,7 @@ app.get('/',(req,res)=> {
 })
 
 //Demas rutas de los controladores
-app.options('*', cors());
 app.use('/api',authRouter);
-app.options('*', cors());
 app.use('/api',ecommerceRouter);
 app.use('/api',tokenvalidation,categoriaRouter);
 app.use('/api',tokenvalidation,productoRouter);
