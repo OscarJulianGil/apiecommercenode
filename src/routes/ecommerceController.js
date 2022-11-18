@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const productoSchema = require('../schemas/productoSchema');
-
+const categoriaSchema = require('../schemas/categoriaSchema');
 
 
 router.get('/ecommerce/producto/getall',(req,res) => {
@@ -21,6 +21,34 @@ router.get('/ecommerce/producto/getall',(req,res) => {
                 }
                 res.json(response);
             }
+        })
+    }
+    catch(error){
+        var response = {
+            code : 500,
+            message : "Server error" + error,
+            data : error
+        }
+        res.json(response);
+    }
+})
+
+router.get('/ecommerce/categoria/getall',(req,res) => {
+    try{
+        categoriaSchema.find().then((data) => {
+            var response = {
+                code : 200,
+                message : "Consulta realizada exitosamente",
+                data : data
+            }
+            res.json(response);
+        }).catch((error) => {
+            var response = {
+                code : 500,
+                message : "Server error" + error,
+                data : error
+            }
+            res.json(response);
         })
     }
     catch(error){
