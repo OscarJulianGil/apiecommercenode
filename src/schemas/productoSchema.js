@@ -32,6 +32,14 @@ const productoSchema = mongoose.Schema({
         url: String, 
         name:String
     }
-})
+},
+{
+    statics: {
+      findByCategoria(categoriaid) {
+        return this.find({ categoriaid: categoriaid });
+      }
+    }
+}
+)
 
 module.exports = mongoose.model("productos",productoSchema);

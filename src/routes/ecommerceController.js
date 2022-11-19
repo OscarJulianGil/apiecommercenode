@@ -61,4 +61,35 @@ router.get('/ecommerce/categoria/getall',(req,res) => {
     }
 })
 
+
+
+
+router.get('/ecommerce/producto/:id',(req,res) => {
+    try{
+        productoSchema.findByCategoria(req.params.id).then((data) => {
+            var response = {
+                code : 200,
+                message : "Consulta realizada exitosamente",
+                data : data
+            }
+            res.json(response);
+        }).catch((error) => {
+            var response = {
+                code : 500,
+                message : "Server error" + error,
+                data : error
+            }
+            res.json(response);
+        })
+    }
+    catch(error){
+        var response = {
+            code : 500,
+            message : "Server error" + error,
+            data : error
+        }
+        res.json(response);
+    }
+})
+
 module.exports = router;
